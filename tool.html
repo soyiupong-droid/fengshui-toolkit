@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#781f1f" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <title>風水工具箱</title>
+    <style>
+      :root {
+        font-family:
+          "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+        color: #fff8e8;
+        background: #781f1f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+
+      .bar {
+        z-index: 2;
+        display: flex;
+        min-height: 54px;
+        align-items: center;
+        gap: 8px;
+        padding:
+          max(7px, env(safe-area-inset-top))
+          max(10px, env(safe-area-inset-right))
+          7px
+          max(10px, env(safe-area-inset-left));
+        background: linear-gradient(120deg, #661818, #8d2a24);
+        box-shadow: 0 2px 12px rgba(35, 12, 8, 0.25);
+      }
+
+      .back,
+      .external {
+        display: inline-flex;
+        min-width: 42px;
+        min-height: 40px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 248, 232, 0.22);
+        border-radius: 12px;
+        color: inherit;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.08);
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .back:active,
+      .external:active {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      h1 {
+        min-width: 0;
+        flex: 1;
+        margin: 0;
+        overflow: hidden;
+        font-size: 17px;
+        font-weight: 700;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .external {
+        padding: 0 12px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: #fff;
+      }
+
+      .error {
+        display: none;
+        place-items: center;
+        padding: 24px;
+        color: #39231c;
+        text-align: center;
+        background: #fbf6ea;
+      }
+
+      .error a {
+        color: #781f1f;
+        font-weight: 700;
+      }
+
+      @media (display-mode: standalone) {
+        .bar {
+          padding-top: max(10px, env(safe-area-inset-top));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bar">
+      <a class="back" href="./" aria-label="返回工具箱">←</a>
+      <h1 id="title">載入中⋯</h1>
+      <a class="external" id="external" href="./" target="_blank" rel="noopener">另開</a>
+    </header>
+    <iframe
+      id="frame"
+      title="工具"
+      allow="geolocation; fullscreen; clipboard-read; clipboard-write"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+    <div class="error" id="error">
+      <p>找不到這個工具。<br /><a href="./">返回工具箱</a></p>
+    </div>
+
+    <script>
+      const tools = {
+        compass: {
+          title: "羅盤地圖",
+          url: "./apps/compass-map/",
+        },
+        luckyday: {
+          title: "擇日小幫手",
+          url: "./apps/luckyday/",
+        },
+        almanac: {
+          title: "奇門通勝",
+          url: "./apps/luckyday-2/",
+        },
+        qimen: {
+          title: "奇門導航",
+          url: "./apps/qimen-navigator/",
+        },
+      };
+
+      const key = new URLSearchParams(location.search).get("app");
+      const tool = tools[key];
+      const title = document.querySelector("#title");
+      const frame = document.querySelector("#frame");
+      const external = document.querySelector("#external");
+
+      if (tool) {
+        document.title = `${tool.title}｜風水工具箱`;
+        title.textContent = tool.title;
+        frame.title = tool.title;
+        frame.src = tool.url;
+        external.href = tool.url;
+      } else {
+        title.textContent = "工具不存在";
+        frame.remove();
+        external.hidden = true;
+        document.querySelector("#error").style.display = "grid";
+      }
+    </script>
+  </body>
+</html>

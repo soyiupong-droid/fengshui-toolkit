@@ -1,0 +1,19 @@
+{
+  "name": "風水工具箱",
+  "short_name": "風水工具箱",
+  "description": "羅盤、擇日、奇門，一站開啟。",
+  "lang": "zh-HK",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf6ea",
+  "theme_color": "#781f1f",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
